@@ -1,13 +1,13 @@
 server:
-  port: 8002
+  port: 8001
 
 
 
 
 spring:
    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://39.104.125.231:3306/db_jude?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://39.104.125.231:3306/fenghua?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
       username: root
       password: root
    jpa:
