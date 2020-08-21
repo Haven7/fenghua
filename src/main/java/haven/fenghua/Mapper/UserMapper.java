@@ -19,7 +19,7 @@ public interface UserMapper {
 
 
     /**
-     * 查询测试
+     * 查询用户列表
      */
     @Select("select * from user")
     List<Map<String, Object>> queryAll(Map<String, Object> params);

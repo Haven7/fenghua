@@ -17,10 +17,10 @@ public class UserController {
 
 
     /**
-     * 查询情报字典
+     * 查询用户列表
      */
-    @RequestMapping(value = "/qbzd", method = RequestMethod.POST)
-    public Result queryQbZd( @RequestBody Map<String, Object> params) {
+    @RequestMapping(value = "/queryUser", method = RequestMethod.POST)
+    public Result queryUser( @RequestBody Map<String, Object> params) {
 
         return userService.queryAll(params);
     }
