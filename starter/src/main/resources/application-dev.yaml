@@ -1,0 +1,20 @@
+master:
+  url: jdbc:mysql://localhost:3306/hr-police-report?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
+  username: root
+  password: 123456
+  driver: com.mysql.jdbc.Driver
+db1:
+  url: jdbc:mysql://localhost:3306/upms_dev2?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
+  username: root
+  password: root123
+  driver: com.mysql.jdbc.Driver
+AES:
+  KEY: aaDJL2d9DfhLZO0z
+  IV: 412ADDSSFA342442
+  enabled: false
+lanxin:
+  reqUrl: https://apigw-cloud.lanxin.cn
+  grantType: client_credential
+  appid: 10904320-9961472
+  secret: DC00A4B28AD648A2BE0A4119E51AF356
+  linkmsg: http://cert.nmch-tech.com:18084/#/empower

@@ -1,0 +1,58 @@
+server:
+  port: 8082
+spring:
+  profiles:
+    active: dev
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      dynamic:
+        seata: false #多数据源使用分布式事务时开启
+        p6spy: true #控制台sql打印，生产环境需关闭
+        druid: #以下是全局默认值，可以全局更改
+          #配置初始化大小/最小/最大
+          initial-size: 5
+          min-idle: 5
+          max-active: 20
+          #获取连接等待超时时间
+          max-wait: 60000
+          #间隔多久进行一次检测，检测需要关闭的空闲连接
+          time-between-eviction-runs-millis: 60000
+          #一个连接在池中最小生存的时间
+          min-evictable-idle-time-millis: 300000
+          validation-query: SELECT 1 FROM DUAL
+          test-while-idle: true
+          test-on-borrow: false
+          test-on-return: false
+        #主数据源配置
+        primary: master
+        datasource:
+          master:
+            url: ${master.url}
+            username: ${master.username}
+            password: ${master.password}
+            driver-class-name: ${master.driver}
+          db1:
+            url: ${db1.url}
+            username: ${db1.username}
+            password: ${db1.password}
+            driver-class-name: ${db1.driver}
+  #          druid: # 以下参数针对每个库可以重新设置druid参数
+  #            validation-query: select 1 FROM DUAL
+  jackson:
+    time-zone: GMT+8
+# 加解密配置
+AES:
+  KEY: ${AES.KEY}
+  IV:  ${AES.IV}
+  enabled: ${AES.enabled}
+#分布式事务 不可删除
+seata:
+  application-id: my_test_tx
+  tx-service-group: my_test_tx_group
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+    grouplist:
+      default: 192.168.42.207:8091
+  #多数据源使用分布式事务时开启
+  enabled: false

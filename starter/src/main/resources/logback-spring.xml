@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <springProperty scope="context" name="PORT" source="server.port"/>
+    <property name="log.port" value="${PORT:-8081}"/> <!-- 日志级别 -->
+    <property name="log.root.level" value="INFO"/> <!-- 日志级别 -->
+    <property name="log.moduleName" value="${LOG_FILE:-hr-basic}"/>  <!-- 模块名称， 影响日志配置名，日志文件名 -->
+    <!--日志文件的保存路径,首先查找系统属性-Dlog.path,如果存在就使用其；否则，在当前目录下创建名为logs目录做日志存放的目录 -->
+    <property name="log.base" value="${LOG_PATH:-./logs}"/>
+    <property name="access_outpattern"
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSSZ}] [%X{x-app-code:--}] [%X{x-app-module-code:--}] [%X{x-user-id:--}] [%X{clientIp:--}] [-->] [${log.moduleName}] [%X{hostName:--}] [%X{traceId:--}] [%X{spanId:--}] [%-4level] [%logger{36}] [-] [%msg]%n"/>
+    <!-- 控制台输出日志 -->
+    <property name="outpattern"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSSZ} [${log.moduleName}] %X{hostName:--} [%-4level] [%logger{36}] - %msg%n"/>
+    <!-- 控制台输出日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${outpattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="ACCESS"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<File>${log.base}/${log.moduleName}/access_${log.port}.log.%d{yyyy-MM-dd}.%i.log</File>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${log.base}/${log.moduleName}/access_${log.port}.log.%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+            <!--单个日志文件大小-->
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${access_outpattern}</pattern>
+        </layout>
+    </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>1024</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="ACCESS"/>
+    </appender>
+
+    <logger name="com.nmghr" additivity="false">
+        <level value="${log.root.level}"/>
+        <appender-ref ref="ACCESS"/>
+    </logger>
+    <logger name="org.mybatis.spring" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.zaxxer" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <!--<Logger name="com.zaxxer.hikari" level="debug"></Logger>-->
+    <root>
+        <level value="${log.root.level}"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
