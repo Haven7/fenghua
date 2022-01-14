@@ -8,7 +8,6 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>backend</module>
         <module>starter</module>
         <module>task</module>
     </modules>

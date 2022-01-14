@@ -18,11 +18,11 @@
             <artifactId>backend</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.nmghr</groupId>
-            <artifactId>task</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.nmghr</groupId>-->
+            <!--<artifactId>task</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
     </dependencies>
     <build>
         <plugins>
